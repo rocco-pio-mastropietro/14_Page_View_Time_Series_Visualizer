@@ -29,20 +29,21 @@ def draw_line_plot():
 def draw_bar_plot():
     # Copy and modify data for monthly bar plot
     df_bar = df.copy()
-    df_bar['years'] = [y.year for y in df_bar.index]
+    df_bar['year'] = [y.year for y in df_bar.index]
     df_bar['month_numbers'] = [m.month for m in df_bar.index]
-    df_bar['months'] = [m.strftime('%B') for m in df_bar.index]
-    df_bar = df_bar[['years', 'month_numbers', 'months', 'value']]    
+    df_bar['month'] = [m.strftime('%B') for m in df_bar.index]
+    df_bar = df_bar[['year', 'month_numbers', 'month', 'value']]
     df_bar.sort_values('month_numbers', inplace=True)
     
     # Draw bar plot
     fig, ax = plt.subplots(figsize=(9.6, 7.2))
     
-    sns.barplot(data=df_bar, x='years', y='value', hue='months', errorbar=None, palette=sns.color_palette())
-    sns.move_legend(ax, 'upper left')
+    sns.barplot(data=df_bar, x='year', y='value', hue='month', width=0.5, errorbar=None, palette=sns.color_palette())
+    
     plt.xlabel('Years')
     plt.ylabel('Average Page Views')
     plt.xticks(rotation=90)
+    plt.legend(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], title='Months', loc='upper left')
     
     # Save image and return fig (don't change this part)
     fig.savefig('bar_plot.png')
@@ -54,12 +55,24 @@ def draw_box_plot():
     df_box.reset_index(inplace=True)
     df_box['year'] = [d.year for d in df_box.date]
     df_box['month'] = [d.strftime('%b') for d in df_box.date]
+    df_box['month_numbers'] = [m.month for m in df_box.date]
+    df_box.sort_values('month_numbers', inplace=True)
 
     # Draw box plots (using Seaborn)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(19.2, 7.2))
 
-
-
-
+    sns.boxplot(data=df_box, x='year', y='value', orient='v', palette=sns.color_palette(), ax=ax1)
+    sns.boxplot(data=df_box, x='month', y='value', orient='v', ax=ax2)
+    
+    ax1.set_ylim(0, 200000)
+    ax1.locator_params(axis='y', nbins=10)
+    ax1.set_title('Year-wise Box Plot (Trend)')
+    ax1.set(xlabel='Year', ylabel='Page Views')
+    
+    ax2.set_ylim(0, 200000)
+    ax2.locator_params(axis='y', nbins=10)
+    ax2.set_title('Month-wise Box Plot (Seasonality)')
+    ax2.set(xlabel='Month', ylabel='Page Views')
 
     # Save image and return fig (don't change this part)
     fig.savefig('box_plot.png')
