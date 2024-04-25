@@ -38,7 +38,7 @@ def draw_bar_plot():
     # Draw bar plot
     fig, ax = plt.subplots(figsize=(9.6, 7.2))
     
-    ax = sns.barplot(data=df_bar, x='years', y='value', hue='months', errorbar=None, palette=sns.color_palette())
+    sns.barplot(data=df_bar, x='years', y='value', hue='months', errorbar=None, palette=sns.color_palette())
     sns.move_legend(ax, 'upper left')
     plt.xlabel('Years')
     plt.ylabel('Average Page Views')
