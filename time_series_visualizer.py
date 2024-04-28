@@ -61,7 +61,7 @@ def draw_box_plot():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize = [12.8, 6.4])
 
     sns.boxplot(data=df_box, x='year', y='value', orient='v', palette=sns.color_palette(), ax=ax1)
-    sns.boxplot(data=df_box, x='month', y='value', orient='v', ax=ax2)
+    sns.boxplot(data=df_box, x='month', y='value', orient='v', palette=sns.color_palette('husl', 12), ax=ax2)
     
     ax1.set_ylim(0, 200000)
     ax1.locator_params(axis='y', nbins=10)
